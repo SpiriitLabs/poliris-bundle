@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        https://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service
+                id="spiriit_poliris.centers_csv_center.annonce_csv_center"
+                class="Spiriit\PolirisBundle\Centers\CsvCenter\AnnonceCsvCenter" public="true"
+        />
+    </services>
+</container>

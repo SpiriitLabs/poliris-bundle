@@ -1,0 +1,42 @@
+{
+  "name": "spiriitlabs/poliris-bundle",
+  "description": "Poliris bundle for CSV",
+  "type": "library",
+  "keywords": [
+    "symfony", "bundle", "poliris"
+  ],
+  "autoload": {
+    "psr-4": { "Spiriit\\PolirisBundle\\": "" }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Spiriit\\PolirisBundle\\Tests\\": "tests/"
+    }
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Gauthier Gilles",
+      "email": "ggauthier@spiriit.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.2",
+    "symfony/serializer": "^5.4|^6.0",
+    "symfony/yaml": "^5.4|^6.0",
+    "symfony/framework-bundle": "^5.4|^6.0"
+  },
+  "require-dev": {
+    "symfony/phpunit-bridge": "^5.4|^6.0"
+  },
+  "config": {
+    "allow-plugins": {
+      "phpstan/extension-installer": true
+    }
+  },
+  "scripts": {
+    "test": [
+      "vendor/bin/simple-phpunit"
+    ]
+  }
+}
