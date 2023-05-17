@@ -13,12 +13,12 @@ Installation
 --------------
 
 Add
-`spiriitlabs/poliris-bundle <https://packagist.org/packages/spiriitlabs/poliris-bundle>`
+[spiriitlabs/poliris-bundle](https://packagist.org/packages/spiriitlabs/poliris-bundle)
 to your ``composer.json`` file:
 
-.. code-block:: terminal
-
-    $ php composer.phar require "spiriitlabs/poliris-bundle"
+```bash
+$ php composer.phar require "spiriitlabs/poliris-bundle"
+```
 
 How to use
 ----------
@@ -121,3 +121,12 @@ function createLine() {
             getSubType()
         )
 ```
+
+Important - No validation
+-------------------------
+
+There is no validation on the data. Why? A CSV file can have several thousand rows, multiplied by approximately 300 columns, and PHP struggles to keep up.
+
+Historically, there were validation classes using the Validator component, but it is too memory-intensive.
+
+One solution would be to batch process the CSV and validate only a few rows at a time. However, that is not currently on the agenda.
