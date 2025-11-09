@@ -2,9 +2,7 @@
   "name": "spiriitlabs/poliris-bundle",
   "description": "Poliris bundle for CSV",
   "type": "library",
-  "keywords": [
-    "symfony", "bundle", "poliris"
-  ],
+  "keywords": ["symfony", "bundle", "immobilier", "seloger", "leboncoin", "export", "poliris"],
   "autoload": {
     "psr-4": { "Spiriit\\PolirisBundle\\": "" }
   },
