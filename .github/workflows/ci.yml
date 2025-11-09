@@ -13,7 +13,7 @@ jobs:
       matrix:
         include:
           # Lowest Deps
-          - php: 7.4
+          - php: 8.2
             symfony: 5.4.*
             composer-flags: '--prefer-stable --prefer-lowest'
             can-fail: false
@@ -22,23 +22,39 @@ jobs:
             symfony: 5.4.*
             composer-flags: '--prefer-stable'
             can-fail: false
-            # Stable Symfony branches
+          - php: 8.3
+            symfony: 5.4.*
+            composer-flags: '--prefer-stable'
+            can-fail: false
+            # Stable Symfony 6 branches
           - php: 8.2
-            symfony: 6.0.*
+            symfony: 6.4.*
+            composer-flags: '--prefer-stable'
+            can-fail: false
+          - php: 8.3
+            symfony: 6.4.*
+            composer-flags: '--prefer-stable'
+            can-fail: false
+          # Symfony 7 branches
+          - php: 8.2
+            symfony: 7.0.*
+            composer-flags: '--prefer-stable'
+            can-fail: false
+          - php: 8.3
+            symfony: 7.0.*
             composer-flags: '--prefer-stable'
             can-fail: false
           - php: 8.2
-            symfony: 6.1.*
+            symfony: 7.1.*
             composer-flags: '--prefer-stable'
             can-fail: false
-          - php: 8.2
-            symfony: 6.2.*
+          - php: 8.3
+            symfony: 7.1.*
             composer-flags: '--prefer-stable'
             can-fail: false
-          # Development Symfony branches
-          - php: 8.2
-            symfony: 6.3.*@dev
-            composer-flags: ''
+          - php: 8.3
+            symfony: 7.2.*
+            composer-flags: '--prefer-stable'
             can-fail: false
 
     name: "PHP ${{ matrix.php }} - Symfony ${{ matrix.symfony }}${{ matrix.composer-flags != '' && format(' - Composer {0}', matrix.composer-flags) || '' }}"
@@ -50,7 +66,7 @@ jobs:
           fetch-depth: 2
 
       - name: "Cache Composer packages"
-        uses: "actions/cache@v3"
+        uses: "actions/cache@v4"
         with:
           path: "~/.composer/cache"
           key: "php-${{ matrix.php }}-symfony-${{ matrix.symfony }}-composer-${{ hashFiles('composer.json') }}-flags-${{ matrix.composer-flags }}"
@@ -65,10 +81,6 @@ jobs:
       - name: "Set Composer stability"
         if: "matrix.symfony == '6.3.*@dev'"
         run: "composer config minimum-stability dev"
-
-      - name: "Remove symfony/security-guard"
-        if: "matrix.symfony == '6.0.*' || matrix.symfony == '6.1.*' || matrix.symfony == '6.2.*' || matrix.symfony == '6.3.*@dev'"
-        run: "composer remove --dev --no-update symfony/security-guard"
 
       - name: "Install dependencies"
         run: "composer update ${{ matrix.composer-flags }} --prefer-dist"
