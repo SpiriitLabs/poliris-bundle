@@ -3,7 +3,7 @@ PolirisBundle
 
 This bundle provide Poliris generation CSV.
 
-Current version is V4.1.17.
+Poliris Current version is V4.1.17.
 
 [![Latest Stable Version](https://poser.pugx.org/spiriitlabs/poliris-bundle/v/stable.svg)](https://packagist.org/packages/spiriitlabs/poliris-bundle)
 [![CI Tests](https://github.com/spiriitlabs/poliris-bundle/actions/workflows/ci.yml/badge.svg)](https://github.com/spiriitlabs/poliris-bundle/actions/workflows/ci.yml)
