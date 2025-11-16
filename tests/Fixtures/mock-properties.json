@@ -1,0 +1,153 @@
+[
+  {
+    "identifiant": {
+      "agenceId": "AGENCY001",
+      "agencePropertyRef": "REF-HOUSE-001",
+      "annonceType": "vente",
+      "annonceIdTechnique": "TECH-ID-001"
+    },
+    "type": {
+      "type": "Maison",
+      "sousType": "Villa"
+    },
+    "localisation": {
+      "ville": "Paris",
+      "codePostal": "75001",
+      "pays": "France",
+      "adresse": "10 Rue de la Paix",
+      "latitude": 48.8566,
+      "longitude": 2.3522,
+      "proximite": "Proche métro et commerces"
+    },
+    "prix": {
+      "prix": 750000,
+      "mentionPrix": "FAI"
+    },
+    "surface": {
+      "habitable": 150,
+      "terrain": 200
+    },
+    "contact": {
+      "nom": "Jean Dupont",
+      "telephone": "0123456789",
+      "email": "contact@agency.com",
+      "siteWeb": "www.agency.com"
+    },
+    "detail": {
+      "activitesCommerciales": "Belle maison familiale avec jardin",
+      "description": "Superbe villa moderne avec 5 chambres spacieuses, grand salon lumineux, cuisine équipée, garage double. Jardin paysager de 200m2."
+    },
+    "photos": [
+      "https://example.com/photos/house1-1.jpg",
+      "https://example.com/photos/house1-2.jpg",
+      "https://example.com/photos/house1-3.jpg"
+    ],
+    "photosTitres": [
+      "Vue extérieure",
+      "Salon",
+      "Cuisine"
+    ]
+  },
+  {
+    "identifiant": {
+      "agenceId": "AGENCY001",
+      "agencePropertyRef": "REF-APT-002",
+      "annonceType": "location",
+      "annonceIdTechnique": "TECH-ID-002"
+    },
+    "type": {
+      "type": "Appartement",
+      "sousType": "T3"
+    },
+    "localisation": {
+      "ville": "Lyon",
+      "codePostal": "69002",
+      "pays": "France",
+      "adresse": "25 Boulevard de la Croix-Rousse",
+      "complement": "Bâtiment A",
+      "quartier": "Croix-Rousse",
+      "proximite": "Métro ligne A",
+      "latitude": 45.7640,
+      "longitude": 4.8357
+    },
+    "prix": {
+      "prix": 1200,
+      "mentionPrix": "CC",
+      "complement": "Charges: 100€"
+    },
+    "surface": {
+      "habitable": 75,
+      "sejour": 25,
+      "terrasse": 10,
+      "hauteur": 2.8,
+      "balcon": 5
+    },
+    "contact": {
+      "nom": "Marie Martin",
+      "telephone": "0987654321",
+      "email": "location@agency.com",
+      "siteWeb": "www.agency.com"
+    },
+    "detail": {
+      "activitesCommerciales": "Appartement T3 moderne",
+      "description": "Bel appartement de 75m2 avec 2 chambres, salon lumineux, cuisine américaine équipée, terrasse. Vue imprenable sur Lyon."
+    },
+    "photos": [
+      "https://example.com/photos/apt2-1.jpg",
+      "https://example.com/photos/apt2-2.jpg"
+    ],
+    "photosTitres": [
+      "Vue générale",
+      "Terrasse"
+    ],
+    "location": {
+      "loyerMensuel": 1200,
+      "charges": 100
+    }
+  },
+  {
+    "identifiant": {
+      "agenceId": "AGENCY002",
+      "agencePropertyRef": "REF-LAND-003",
+      "annonceType": "vente",
+      "annonceIdTechnique": "TECH-ID-003"
+    },
+    "type": {
+      "type": "Terrain",
+      "sousType": "Constructible"
+    },
+    "localisation": {
+      "ville": "Bordeaux",
+      "codePostal": "33000",
+      "pays": "France",
+      "adresse": "Avenue des Champs",
+      "quartier": "Caudéran",
+      "proximite": "Proche écoles",
+      "latitude": 44.8378,
+      "longitude": -0.5792
+    },
+    "prix": {
+      "prix": 180000,
+      "mentionPrix": "Net vendeur"
+    },
+    "surface": {
+      "terrain": 800
+    },
+    "contact": {
+      "nom": "Pierre Dubois",
+      "telephone": "0156789012",
+      "email": "vente@agency2.com",
+      "siteWeb": "www.agency2.com"
+    },
+    "detail": {
+      "activitesCommerciales": "Terrain à bâtir",
+      "description": "Magnifique terrain constructible de 800m2, viabilisé, COS 0.4. Libre de constructeur."
+    },
+    "terrain": {
+      "surface": 800,
+      "constructible": true,
+      "viabilise": true,
+      "cos": 0.4
+    }
+  }
+]

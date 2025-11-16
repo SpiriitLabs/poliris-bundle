@@ -1,0 +1,65 @@
+name: "CSV Export Functional Test"
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  csv-export-test:
+    name: "CSV Export Functional Test - PHP ${{ matrix.php }}"
+    runs-on: ubuntu-latest
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.2', '8.3']
+        symfony: ['7.0.*']
+    
+    steps:
+      - name: "Checkout code"
+        uses: "actions/checkout@v4"
+
+      - name: "Cache Composer packages"
+        uses: "actions/cache@v4"
+        with:
+          path: "~/.composer/cache"
+          key: "php-${{ matrix.php }}-symfony-${{ matrix.symfony }}-composer-${{ hashFiles('composer.json') }}"
+          restore-keys: "php-"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: "${{ matrix.php }}"
+          extensions: mbstring, intl
+          tools: "composer:v2"
+          coverage: none
+
+      - name: "Install dependencies"
+        run: "composer update --prefer-dist --no-progress --no-interaction"
+        env:
+          SYMFONY_REQUIRE: "${{ matrix.symfony }}"
+
+      - name: "Verify mock data fixture exists"
+        run: |
+          if [ ! -f tests/Fixtures/mock-properties.json ]; then
+            echo "Error: Mock data file not found!"
+            exit 1
+          fi
+          echo "Mock data file found:"
+          cat tests/Fixtures/mock-properties.json | head -20
+
+      - name: "Run CSV Export Functional Test"
+        run: "vendor/bin/simple-phpunit tests/Functional/CsvExportFunctionalTest.php --testdox"
+
+      - name: "Display test summary"
+        if: always()
+        run: |
+          echo "=========================================="
+          echo "CSV Export Functional Test Complete"
+          echo "=========================================="
+          echo "Test validates that the Poliris bundle correctly:"
+          echo "  ✓ Loads mock real estate property data"
+          echo "  ✓ Generates CSV files in Poliris format"
+          echo "  ✓ Includes all expected fields and values"
+          echo "  ✓ Uses correct CSV structure and delimiters"
+          echo "=========================================="

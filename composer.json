@@ -25,7 +25,8 @@
     "symfony/framework-bundle": "^5.4|^6.0|^7.0"
   },
   "require-dev": {
-    "symfony/phpunit-bridge": "^5.4|^6.0|^7.0"
+    "symfony/phpunit-bridge": "^5.4|^6.0|^7.0",
+    "symfony/property-access": "*"
   },
   "config": {
     "allow-plugins": {
