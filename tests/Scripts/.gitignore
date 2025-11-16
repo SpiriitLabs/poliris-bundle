@@ -1,0 +1,11 @@
+# Compiled binaries
+generate-large-mock-data-c
+generate-large-mock-data-rust
+
+# Rust build artifacts
+target/
+Cargo.lock
+
+# Test output files
+*.json.test
+/tmp/test-*.json

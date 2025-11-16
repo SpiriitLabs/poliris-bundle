@@ -60,6 +60,22 @@ jobs:
           sudo dpkg -i hyperfine_1.18.0_amd64.deb
           hyperfine --version
 
+      - name: "Install Rust toolchain for generator compilation"
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: stable
+
+      - name: "Compile C and Rust generators"
+        run: |
+          cd tests/Scripts
+          make all
+          echo "✓ C and Rust generators compiled successfully"
+
+      - name: "Run Generator Performance Comparison"
+        run: |
+          echo "Comparing PHP, C, and Rust JSON generators..."
+          bash tests/Scripts/compare-generators.sh
+
       - name: "Run Performance Benchmarks"
         run: |
           echo "Running CSV export performance benchmarks..."
