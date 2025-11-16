@@ -9,14 +9,14 @@ permissions:
 
 jobs:
   csv-export-test:
-    name: "CSV Export Functional Test - PHP ${{ matrix.php }}"
+    name: "CSV Export Functional Test - PHP ${{ matrix.php }} - Symfony ${{ matrix.symfony }}"
     runs-on: ubuntu-latest
     
     strategy:
       fail-fast: false
       matrix:
-        php: ['8.2', '8.3']
-        symfony: ['7.0.*']
+        php: ['8.2']
+        symfony: ['6.4.*']
     
     steps:
       - name: "Checkout code"
