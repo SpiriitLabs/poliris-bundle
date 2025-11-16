@@ -460,4 +460,148 @@ class CsvExportFunctionalTest extends TestCase
         $this->assertStringContainsString('Bordeaux', $csvContent);
         $this->assertStringContainsString('180000', $csvContent);
     }
+
+    /**
+     * @test
+     * Test CSV export performance with large volume of data
+     * @group performance
+     */
+    public function it_handles_large_volume_data_export_performantly(): void
+    {
+        // ARRANGE: Generate large volume mock data
+        $propertyCount = 100;
+        $mockData = $this->generateLargeVolumeMockData($propertyCount);
+        
+        // ACT: Measure build and export time
+        $startTime = microtime(true);
+        $builder = $this->buildExportFromMockData($mockData);
+        $export = $builder->build();
+        $buildTime = microtime(true) - $startTime;
+        
+        $csvStartTime = microtime(true);
+        $this->csvFilePath = $this->csvCenter->generateCsvFile($export, 'UTF-8');
+        $csvTime = microtime(true) - $csvStartTime;
+        
+        $totalTime = microtime(true) - $startTime;
+        
+        // ASSERT: Verify performance meets acceptable thresholds
+        $this->assertFileExists($this->csvFilePath, 'CSV file should be created');
+        $this->assertGreaterThan(0, filesize($this->csvFilePath), 'CSV file should not be empty');
+        
+        // Verify line count matches property count
+        $csvContent = file_get_contents($this->csvFilePath);
+        $lines = explode("\n", trim($csvContent));
+        $this->assertCount($propertyCount, $lines, "CSV should contain $propertyCount lines");
+        
+        // Performance assertions - should handle 100 properties reasonably fast
+        $this->assertLessThan(5.0, $totalTime, 'Total time should be less than 5 seconds for 100 properties');
+        $this->assertLessThan(3.0, $buildTime, 'Build time should be less than 3 seconds for 100 properties');
+        
+        // Calculate and log throughput
+        $throughput = $propertyCount / $totalTime;
+        $this->assertGreaterThan(20, $throughput, 'Throughput should be at least 20 properties/second');
+        
+        // Log performance metrics (will be visible in test output)
+        fwrite(STDERR, sprintf(
+            "\nPerformance Metrics (%d properties):\n" .
+            "  Build time: %.3fs\n" .
+            "  CSV generation time: %.3fs\n" .
+            "  Total time: %.3fs\n" .
+            "  File size: %.2f MB\n" .
+            "  Throughput: %.2f properties/second\n",
+            $propertyCount,
+            $buildTime,
+            $csvTime,
+            $totalTime,
+            filesize($this->csvFilePath) / 1024 / 1024,
+            $throughput
+        ));
+    }
+
+    /**
+     * Generate large volume of mock data for performance testing
+     */
+    private function generateLargeVolumeMockData(int $count): array
+    {
+        $mockData = [];
+        $cities = ['Paris', 'Lyon', 'Marseille', 'Toulouse', 'Nice', 'Bordeaux'];
+        $types = [
+            ['type' => 'Maison', 'sousType' => 'Villa'],
+            ['type' => 'Appartement', 'sousType' => 'T3'],
+            ['type' => 'Terrain', 'sousType' => 'Constructible'],
+        ];
+        $transactionTypes = ['vente', 'location'];
+        
+        for ($i = 1; $i <= $count; $i++) {
+            $city = $cities[array_rand($cities)];
+            $type = $types[array_rand($types)];
+            $transactionType = $transactionTypes[array_rand($transactionTypes)];
+            $isRental = $transactionType === 'location';
+            
+            $property = [
+                'identifiant' => [
+                    'agenceId' => 'AGENCY' . str_pad((string)(($i % 50) + 1), 3, '0', STR_PAD_LEFT),
+                    'agencePropertyRef' => 'REF-PERF-' . str_pad((string)$i, 6, '0', STR_PAD_LEFT),
+                    'annonceType' => $transactionType,
+                    'annonceIdTechnique' => 'TECH-PERF-' . str_pad((string)$i, 6, '0', STR_PAD_LEFT)
+                ],
+                'type' => $type,
+                'localisation' => [
+                    'ville' => $city,
+                    'codePostal' => (string)(75000 + ($i % 20)),
+                    'pays' => 'France',
+                    'adresse' => ($i % 100) . ' Avenue de Test',
+                    'latitude' => 48.8566 + (($i % 50) * 0.01),
+                    'longitude' => 2.3522 + (($i % 50) * 0.01),
+                    'proximite' => 'Proche commodités'
+                ],
+                'prix' => [
+                    'prix' => $isRental ? (900 + ($i % 1100)) : (180000 + ($i % 400000)),
+                    'mentionPrix' => $isRental ? 'CC' : 'FAI'
+                ],
+                'surface' => [
+                    'habitable' => 55 + ($i % 145),
+                    'terrain' => ($type['type'] === 'Terrain') ? (400 + ($i % 800)) : null
+                ],
+                'contact' => [
+                    'nom' => 'Agent Performance ' . (($i % 30) + 1),
+                    'telephone' => '01' . str_pad((string)($i % 100000000), 8, '0', STR_PAD_LEFT),
+                    'email' => 'perf' . (($i % 30) + 1) . '@agency.com',
+                    'siteWeb' => 'www.perfagency.com'
+                ],
+                'detail' => [
+                    'activitesCommerciales' => 'Performance test property ' . $i,
+                    'description' => 'Test property for performance benchmarking. Property number ' . $i . '.'
+                ],
+                'photos' => [
+                    'https://example.com/photos/perf' . $i . '-1.jpg',
+                    'https://example.com/photos/perf' . $i . '-2.jpg'
+                ],
+                'photosTitres' => [
+                    'Photo 1',
+                    'Photo 2'
+                ]
+            ];
+            
+            if ($isRental) {
+                $property['location'] = [
+                    'loyerMensuel' => $property['prix']['prix'],
+                    'charges' => 80 + ($i % 120)
+                ];
+            }
+            
+            if ($type['type'] === 'Terrain') {
+                $property['terrain'] = [
+                    'surface' => $property['surface']['terrain'],
+                    'constructible' => true,
+                    'viabilise' => ($i % 2) === 0,
+                    'cos' => 0.35
+                ];
+            }
+            
+            $mockData[] = $property;
+        }
+        
+        return $mockData;
+    }
 }

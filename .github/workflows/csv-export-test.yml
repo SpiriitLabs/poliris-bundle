@@ -54,6 +54,17 @@ jobs:
       - name: "Run CSV Export Functional Test"
         run: "vendor/bin/simple-phpunit tests/Functional/CsvExportFunctionalTest.php --testdox"
 
+      - name: "Install hyperfine for performance testing"
+        run: |
+          wget https://github.com/sharkdp/hyperfine/releases/download/v1.18.0/hyperfine_1.18.0_amd64.deb
+          sudo dpkg -i hyperfine_1.18.0_amd64.deb
+          hyperfine --version
+
+      - name: "Run Performance Benchmarks"
+        run: |
+          echo "Running CSV export performance benchmarks..."
+          bash tests/Scripts/benchmark-performance.sh
+
       - name: "Display test summary"
         if: always()
         run: |
