@@ -4,6 +4,9 @@ on:
   pull_request:
   push:
 
+permissions:
+  contents: read
+
 jobs:
   csv-export-test:
     name: "CSV Export Functional Test - PHP ${{ matrix.php }}"
