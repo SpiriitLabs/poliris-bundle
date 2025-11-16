@@ -23,14 +23,14 @@ $ php composer.phar require "spiriitlabs/poliris-bundle"
 Documentation
 -------------
 
-📚 **[Guide Développeur Complet (Français)](docs/GUIDE_DEVELOPPEUR.md)**
+📚 **[Complete Documentation](docs/DOCUMENTATION.md)**
 
-Le guide développeur offre :
-- 🚀 Un tutoriel "Getting Started" détaillé
-- 🎯 Des cas d'usage illustrés (SeLoger, photos, automatisation)
-- 📊 Des tableaux de référence des modèles
-- 🔧 Des solutions aux erreurs courantes
-- 💡 Des exemples de code complets et testés
+The documentation provides:
+- 🚀 Detailed getting started tutorial
+- 🎯 Illustrated use cases (SeLoger, photos, automation)
+- 📊 Model reference tables
+- 🔧 Common error solutions
+- 💡 Complete and tested code examples
 
 How to use
 ----------

@@ -1,44 +1,44 @@
-# Guide Développeur - PolirisBundle 📚
+# PolirisBundle Documentation
 
-> **Bundle Symfony pour la génération de flux CSV Poliris (V4.1.17)**  
-> Export de données immobilières vers SeLoger, LeBonCoin et autres portails
-
----
-
-## 📋 Table des matières
-
-1. [Getting Started](#-getting-started)
-2. [Cas d'usage illustrés](#-cas-dusage-illustrés)
-3. [Référence des modèles](#-référence-des-modèles)
-4. [Dépannage](#-dépannage)
+> **Symfony Bundle for Poliris CSV Generation (V4.1.17)**  
+> Export real estate data to SeLoger, LeBonCoin and other French property portals
 
 ---
 
-## 🚀 Getting Started
+## Table of Contents
 
-### Qu'est-ce que PolirisBundle ?
+1. [Getting Started](#getting-started)
+2. [Use Cases](#use-cases)
+3. [Model Reference](#model-reference)
+4. [Troubleshooting](#troubleshooting)
 
-**PolirisBundle** est un bundle Symfony qui facilite la génération de fichiers CSV au format **Poliris** (V4.1.17), le standard utilisé par les principaux portails immobiliers français (SeLoger, LeBonCoin, etc.).
+---
 
-#### Pourquoi ce bundle ?
+## Getting Started
 
-- ✅ **Simplicité** : Pas besoin de gérer manuellement 333+ colonnes CSV
-- ✅ **Type-safe** : Utilise le pattern Builder avec des classes typées
-- ✅ **Performance** : Optimisé pour traiter des milliers d'annonces
-- ✅ **Maintenance** : Évolution facile grâce à l'architecture modulaire
+### What is PolirisBundle?
 
-#### Que puis-je en faire ?
+**PolirisBundle** is a Symfony bundle that simplifies the generation of CSV files in the **Poliris** format (V4.1.17), the standard used by major French real estate portals (SeLoger, LeBonCoin, etc.).
 
-- Exporter vos biens immobiliers vers SeLoger, LeBonCoin
-- Automatiser la mise à jour quotidienne de vos annonces
-- Gérer des flux multi-portails avec un seul code source
-- Intégrer facilement des photos et métadonnées
+#### Why use this bundle?
+
+- ✅ **Simplicity**: No need to manually manage 333+ CSV columns
+- ✅ **Type-safe**: Uses the Builder pattern with typed classes
+- ✅ **Performance**: Optimized to process thousands of listings
+- ✅ **Maintainability**: Easy evolution thanks to modular architecture
+
+#### What can you do with it?
+
+- Export your real estate properties to SeLoger, LeBonCoin
+- Automate daily listing updates
+- Manage multi-portal feeds with a single codebase
+- Easily integrate photos and metadata
 
 ---
 
 ### Installation
 
-#### Prérequis
+#### Requirements
 
 - PHP >= 8.2
 - Symfony >= 5.4
@@ -49,29 +49,29 @@
 composer require spiriitlabs/poliris-bundle
 ```
 
-Le bundle sera automatiquement enregistré grâce au Flex de Symfony.
+The bundle will be automatically registered thanks to Symfony Flex.
 
 ---
 
-### Configuration minimale
+### Minimal Configuration
 
-Le bundle ne nécessite **aucune configuration** pour démarrer. Il fonctionne out-of-the-box !
+The bundle requires **no configuration** to get started. It works out-of-the-box!
 
-Si vous souhaitez personnaliser le comportement, créez un fichier `config/packages/poliris.yaml` :
+If you wish to customize behavior, create a `config/packages/poliris.yaml` file:
 
 ```yaml
-# config/packages/poliris.yaml (optionnel)
+# config/packages/poliris.yaml (optional)
 poliris:
-    # Configuration future (actuellement aucune configuration nécessaire)
+    # Future configuration (currently no configuration needed)
 ```
 
 ---
 
-### Premier export : Exemple complet
+### First Export: Complete Example
 
-Créons notre premier fichier CSV avec 2 annonces immobilières.
+Let's create our first CSV file with 2 real estate listings.
 
-#### Code PHP
+#### PHP Code
 
 ```php
 <?php
@@ -87,17 +87,17 @@ class PolirisExportService
     {
         $builder = new AnnonceExportBuilder();
         
-        // Annonce 1 : Appartement T3 à Paris
+        // Listing 1: 3-room apartment in Paris
         $builder
             ->startLine()
             ->withIdentifiant(
                 agenceId: 'AGENCE001',
-                agencePropertyRef: 'BIEN-12345',
+                agencePropertyRef: 'PROP-12345',
                 annonceType: Annonce::ANNONCE_TYPE_VENTE,
                 annonceIdTechnique: 'TECH-001'
             )
             ->withType(
-                type: 1,        // 1 = Appartement
+                type: 1,        // 1 = Apartment
                 sousType: null
             )
             ->withLocalisation(
@@ -105,7 +105,7 @@ class PolirisExportService
                 ville: 'Paris',
                 pays: 'France',
                 adresse: '10 rue de Rivoli',
-                quartierProximite: 'Proche métro Louvre',
+                quartierProximite: 'Near Louvre metro',
                 situation: null,
                 procheLac: null,
                 procheTennis: null,
@@ -161,7 +161,7 @@ class PolirisExportService
                 copropriete: true,
                 nbLots: 25,
                 syndicatCopro: null,
-                syndicatCoproDetails: 'Charges annuelles : 2400€',
+                syndicatCoproDetails: 'Annual charges: €2400',
                 prixTerrain: null,
                 prixModeleMaison: null,
                 prixMin: null,
@@ -169,8 +169,8 @@ class PolirisExportService
             )
             ->withDetail(
                 activitesCommerciales: null,
-                label: 'Appartement T3 lumineux proche Louvre',
-                description: 'Magnifique appartement de 65m² avec balcon, situé au cœur de Paris. Vue dégagée, calme, proche de toutes commodités.',
+                label: 'Bright 3-room apartment near Louvre',
+                description: 'Beautiful 65m² apartment with balcony, located in the heart of Paris. Unobstructed view, quiet, close to all amenities.',
                 datesDispo: new \DateTimeImmutable('2025-01-01'),
                 amenagementHandicapes: false,
                 animauxAcceptes: false,
@@ -195,25 +195,25 @@ class PolirisExportService
             )
             ->withContact(
                 tel: '0142000000',
-                fullName: 'Jean Dupont',
-                email: 'contact@agence.fr',
+                fullName: 'John Smith',
+                email: 'contact@agency.com',
                 interCabinet: false,
                 interCabinetPrive: null,
                 codeNego: 'NEG001',
                 agenceTerrain: null
             );
 
-        // Annonce 2 : Maison à Lyon
+        // Listing 2: House in Lyon
         $builder
             ->startLine()
             ->withIdentifiant(
                 agenceId: 'AGENCE001',
-                agencePropertyRef: 'BIEN-67890',
+                agencePropertyRef: 'PROP-67890',
                 annonceType: Annonce::ANNONCE_TYPE_VENTE,
                 annonceIdTechnique: 'TECH-002'
             )
             ->withType(
-                type: 2,        // 2 = Maison
+                type: 2,        // 2 = House
                 sousType: null
             )
             ->withLocalisation(
@@ -221,7 +221,7 @@ class PolirisExportService
                 ville: 'Lyon',
                 pays: 'France',
                 adresse: '25 avenue du Général Leclerc',
-                quartierProximite: 'Quartier résidentiel',
+                quartierProximite: 'Residential area',
                 situation: null,
                 procheLac: null,
                 procheTennis: null,
@@ -285,8 +285,8 @@ class PolirisExportService
             )
             ->withDetail(
                 activitesCommerciales: null,
-                label: 'Belle maison familiale avec jardin',
-                description: 'Maison de 120m² avec jardin de 250m², 4 chambres, terrasse. Idéale famille.',
+                label: 'Beautiful family house with garden',
+                description: '120m² house with 250m² garden, 4 bedrooms, terrace. Ideal for families.',
                 datesDispo: new \DateTimeImmutable('2025-02-01'),
                 amenagementHandicapes: false,
                 animauxAcceptes: true,
@@ -311,23 +311,23 @@ class PolirisExportService
             )
             ->withContact(
                 tel: '0478000000',
-                fullName: 'Marie Martin',
-                email: 'lyon@agence.fr',
+                fullName: 'Mary Johnson',
+                email: 'lyon@agency.com',
                 interCabinet: false,
                 interCabinetPrive: null,
                 codeNego: 'NEG002',
                 agenceTerrain: null
             );
 
-        // Génération du CSV
+        // Generate CSV
         $export = $builder->build();
         
-        return $export->toCSV(); // Retourne le contenu CSV
+        return $export->toCSV();
     }
 }
 ```
 
-#### Utilisation dans un contrôleur
+#### Usage in a Controller
 
 ```php
 <?php
@@ -357,47 +357,47 @@ class ExportController extends AbstractController
 
 ---
 
-### À quoi ressemble le résultat ?
+### Expected Output
 
-Le CSV généré contiendra 333+ colonnes. Voici un **extrait simplifié** des premières colonnes :
+The generated CSV will contain 333+ columns. Here's a **simplified excerpt** of the first columns:
 
 ```csv
-AGENCE001,BIEN-12345,vente,1,,,,75001,Paris,...,65,3,2,...,450000,...
-AGENCE001,BIEN-67890,vente,2,,,,69003,Lyon,...,120,5,4,...,650000,...
+AGENCE001,PROP-12345,vente,1,,,,75001,Paris,...,65,3,2,...,450000,...
+AGENCE001,PROP-67890,vente,2,,,,69003,Lyon,...,120,5,4,...,650000,...
 ```
 
-**Structure du fichier :**
+**File structure:**
 
 | Col 1-4 | Col 5-10 | Col 11-40 | Col 41-100 | Col 101-200 | Col 201-333 |
 |---------|----------|-----------|------------|-------------|-------------|
-| Identifiant | Type | Photos | Localisation | Surface/Prix | Divers |
+| Identifier | Type | Photos | Location | Surface/Price | Miscellaneous |
 
-#### Correspondance des colonnes principales
+#### Main Column Mapping
 
-| Colonne | Nom | Exemple |
+| Column | Name | Example |
 |---------|-----|---------|
-| 1 | ID Agence | `AGENCE001` |
-| 2 | Référence bien | `BIEN-12345` |
-| 3 | Type annonce | `vente` ou `location` |
-| 4 | Type de bien | `1` (Appt), `2` (Maison) |
-| 5-10 | Photos | URLs des images |
-| 11 | Code postal | `75001` |
-| 12 | Ville | `Paris` |
+| 1 | Agency ID | `AGENCE001` |
+| 2 | Property Reference | `PROP-12345` |
+| 3 | Listing Type | `vente` or `location` |
+| 4 | Property Type | `1` (Apt), `2` (House) |
+| 5-10 | Photos | Image URLs |
+| 11 | Postal Code | `75001` |
+| 12 | City | `Paris` |
 | 20 | Surface | `65` (m²) |
-| 21 | Nb pièces | `3` |
-| 22 | Nb chambres | `2` |
-| 30 | Prix | `450000` |
+| 21 | Rooms | `3` |
+| 22 | Bedrooms | `2` |
+| 30 | Price | `450000` |
 | ... | ... | ... |
 
 ---
 
-## 🎯 Cas d'usage illustrés
+## Use Cases
 
-### Cas #1 : Exporter pour SeLoger avec mapping
+### Case #1: Export for SeLoger with Mapping
 
-SeLoger impose certaines **contraintes spécifiques** sur les données Poliris.
+SeLoger has specific **requirements** for Poliris data.
 
-#### Mapping des types de biens
+#### Property Type Mapping
 
 ```php
 <?php
@@ -407,25 +407,25 @@ namespace App\Service;
 class SeLogerMappingService
 {
     /**
-     * Mapping des types de biens pour SeLoger
+     * Property type mapping for SeLoger
      */
     public const TYPE_MAPPING = [
-        'appartement' => 1,
-        'maison' => 2,
+        'apartment' => 1,
+        'house' => 2,
         'parking' => 3,
-        'terrain' => 4,
-        'boutique' => 5,
-        'bureau' => 6,
-        'batiment' => 7,
-        'chateau' => 8,
-        'immeuble' => 9,
+        'land' => 4,
+        'shop' => 5,
+        'office' => 6,
+        'building' => 7,
+        'castle' => 8,
+        'block' => 9,
         'loft' => 10,
-        'local_commercial' => 11,
-        'programme_neuf' => 13,
+        'commercial_premises' => 11,
+        'new_development' => 13,
     ];
 
     /**
-     * Sous-types pour appartement
+     * Subtypes for apartments
      */
     public const SOUS_TYPE_APPARTEMENT = [
         'duplex' => 1,
@@ -435,29 +435,29 @@ class SeLogerMappingService
     ];
 
     /**
-     * Sous-types pour maison
+     * Subtypes for houses
      */
     public const SOUS_TYPE_MAISON = [
         'villa' => 1,
-        'mas' => 2,
+        'farmhouse' => 2,
         'chalet' => 3,
-        'ferme' => 4,
-        'longere' => 5,
+        'farm' => 4,
+        'longhouse' => 5,
     ];
 
-    public function getTypePoliris(string $typeBien): int
+    public function getTypePoliris(string $propertyType): int
     {
-        return self::TYPE_MAPPING[$typeBien] ?? 1;
+        return self::TYPE_MAPPING[$propertyType] ?? 1;
     }
 
-    public function getSousType(string $typeBien, ?string $sousType): ?int
+    public function getSubType(string $propertyType, ?string $subType): ?int
     {
-        if ($typeBien === 'appartement' && $sousType) {
-            return self::SOUS_TYPE_APPARTEMENT[$sousType] ?? null;
+        if ($propertyType === 'apartment' && $subType) {
+            return self::SOUS_TYPE_APPARTEMENT[$subType] ?? null;
         }
         
-        if ($typeBien === 'maison' && $sousType) {
-            return self::SOUS_TYPE_MAISON[$sousType] ?? null;
+        if ($propertyType === 'house' && $subType) {
+            return self::SOUS_TYPE_MAISON[$subType] ?? null;
         }
         
         return null;
@@ -465,7 +465,7 @@ class SeLogerMappingService
 }
 ```
 
-#### Utilisation du mapping
+#### Using the Mapping
 
 ```php
 <?php
@@ -476,48 +476,48 @@ use App\Service\SeLogerMappingService;
 $mapping = new SeLogerMappingService();
 $builder = new AnnonceExportBuilder();
 
-// Pour un duplex
+// For a duplex
 $builder
     ->startLine()
     ->withIdentifiant('AGENCE001', 'REF-001', 'vente', 'TECH-001')
     ->withType(
-        type: $mapping->getTypePoliris('appartement'),    // 1
-        sousType: $mapping->getSousType('appartement', 'duplex')  // 1
+        type: $mapping->getTypePoliris('apartment'),    // 1
+        sousType: $mapping->getSubType('apartment', 'duplex')  // 1
     )
     ->withDetail(
         activitesCommerciales: null,
-        label: 'Duplex 4 pièces',
-        description: 'Magnifique duplex...',
+        label: '4-room duplex',
+        description: 'Magnificent duplex...',
         datesDispo: new \DateTimeImmutable(),
         amenagementHandicapes: false,
         animauxAcceptes: false,
-        duplex: true,  // Important pour SeLoger
+        duplex: true,  // Important for SeLoger
         commPrives: null,
         logementADisposition: null,
         nomModele: null
     );
 ```
 
-#### Publication spécifique SeLoger
+#### SeLoger-specific Publication
 
 ```php
 $builder
     ->startLine()
     ->withIdentifiant(/* ... */)
     ->withPublication(
-        publications: 'seloger',  // Portails cibles : seloger, leboncoin, etc.
-        coupDeCoeur: true,        // Mise en avant
-        versionFormat: '4.1.17'   // Version Poliris
+        publications: 'seloger',  // Target portals: seloger, leboncoin, etc.
+        coupDeCoeur: true,        // Featured listing
+        versionFormat: '4.1.17'   // Poliris version
     );
 ```
 
 ---
 
-### Cas #2 : Inclure des photos dans l'export
+### Case #2: Including Photos in Export
 
-Les portails immobiliers nécessitent des photos de qualité. Le bundle supporte jusqu'à **30 photos par annonce**.
+Real estate portals require quality photos. The bundle supports up to **30 photos per listing**.
 
-#### Exemple avec photos
+#### Example with Photos
 
 ```php
 <?php
@@ -531,13 +531,13 @@ $builder
     ->withIdentifiant('AGENCE001', 'REF-001', 'vente', 'TECH-001')
     ->withType(1, null)
     ->withPhoto(
-        // URLs des photos (30 max)
-        photo1: 'https://www.example.com/photos/bien-001/salon.jpg',
-        photo2: 'https://www.example.com/photos/bien-001/cuisine.jpg',
-        photo3: 'https://www.example.com/photos/bien-001/chambre1.jpg',
-        photo4: 'https://www.example.com/photos/bien-001/chambre2.jpg',
-        photo5: 'https://www.example.com/photos/bien-001/sdb.jpg',
-        photo6: 'https://www.example.com/photos/bien-001/exterieur.jpg',
+        // Photo URLs (30 max)
+        photo1: 'https://www.example.com/photos/property-001/living-room.jpg',
+        photo2: 'https://www.example.com/photos/property-001/kitchen.jpg',
+        photo3: 'https://www.example.com/photos/property-001/bedroom1.jpg',
+        photo4: 'https://www.example.com/photos/property-001/bedroom2.jpg',
+        photo5: 'https://www.example.com/photos/property-001/bathroom.jpg',
+        photo6: 'https://www.example.com/photos/property-001/exterior.jpg',
         photo7: null,
         photo8: null,
         photo9: null,
@@ -563,13 +563,13 @@ $builder
         photo29: null,
         photo30: null,
         
-        // Titres des photos (optionnels)
-        titre1: 'Salon lumineux',
-        titre2: 'Cuisine équipée',
-        titre3: 'Chambre 1',
-        titre4: 'Chambre 2',
-        titre5: 'Salle de bain',
-        titre6: 'Vue extérieure',
+        // Photo titles (optional)
+        titre1: 'Bright living room',
+        titre2: 'Equipped kitchen',
+        titre3: 'Bedroom 1',
+        titre4: 'Bedroom 2',
+        titre5: 'Bathroom',
+        titre6: 'Exterior view',
         titre7: null,
         titre8: null,
         titre9: null,
@@ -595,29 +595,29 @@ $builder
         titre29: null,
         titre30: null,
         
-        // Photo panoramique et visite virtuelle
-        photoPanoramique: 'https://www.example.com/photos/bien-001/panorama.jpg',
-        urlVisiteVirtuelle: 'https://www.example.com/visite-virtuelle/bien-001'
+        // Panoramic photo and virtual tour
+        photoPanoramique: 'https://www.example.com/photos/property-001/panorama.jpg',
+        urlVisiteVirtuelle: 'https://www.example.com/virtual-tour/property-001'
     );
 ```
 
-#### Bonnes pratiques pour les photos
+#### Best Practices for Photos
 
-✅ **Ordre des photos** : Commencez par les pièces principales (salon, cuisine)  
-✅ **Qualité** : Minimum 1024x768, idéal 1920x1080  
-✅ **Format** : JPG ou PNG  
-✅ **Poids** : < 2 Mo par photo  
-✅ **Titres** : Descriptifs et informatifs
+✅ **Photo order**: Start with main rooms (living room, kitchen)  
+✅ **Quality**: Minimum 1024x768, ideal 1920x1080  
+✅ **Format**: JPG or PNG  
+✅ **Size**: < 2 MB per photo  
+✅ **Titles**: Descriptive and informative
 
-❌ **À éviter** : Photos floues, trop sombres, avec filigrane
+❌ **Avoid**: Blurry photos, too dark, with watermarks
 
 ---
 
-### Cas #3 : Automatiser un export programmé
+### Case #3: Automated Scheduled Export
 
-#### Option A : Avec une commande Symfony
+#### Option A: Symfony Command
 
-Créez une commande pour générer l'export :
+Create a command to generate the export:
 
 ```php
 <?php
@@ -634,7 +634,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'app:export:poliris',
-    description: 'Génère le fichier CSV Poliris pour l\'export immobilier',
+    description: 'Generate Poliris CSV file for real estate export',
 )]
 class ExportPolirisCommand extends Command
 {
@@ -648,13 +648,13 @@ class ExportPolirisCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $io->title('Génération du fichier Poliris');
+        $io->title('Poliris File Generation');
 
         try {
-            // Génération du CSV
+            // Generate CSV
             $csvContent = $this->exportService->generateExport();
             
-            // Sauvegarde du fichier
+            // Save file
             $filename = sprintf(
                 'poliris-export-%s.csv',
                 (new \DateTime())->format('Y-m-d-His')
@@ -663,18 +663,18 @@ class ExportPolirisCommand extends Command
             
             file_put_contents($filepath, $csvContent);
             
-            $io->success(sprintf('Export généré : %s', $filename));
+            $io->success(sprintf('Export generated: %s', $filename));
             
             return Command::SUCCESS;
         } catch (\Exception $e) {
-            $io->error('Erreur lors de la génération : ' . $e->getMessage());
+            $io->error('Error during generation: ' . $e->getMessage());
             return Command::FAILURE;
         }
     }
 }
 ```
 
-**Configuration** (`config/services.yaml`) :
+**Configuration** (`config/services.yaml`):
 
 ```yaml
 # config/services.yaml
@@ -684,24 +684,24 @@ services:
             $exportDir: '%kernel.project_dir%/var/exports'
 ```
 
-**Exécution** :
+**Execution**:
 
 ```bash
 php bin/console app:export:poliris
 ```
 
-#### Option B : Avec un cron
+#### Option B: Cron Job
 
-Ajoutez une tâche cron pour exécuter l'export quotidiennement :
+Add a cron task to run the export daily:
 
 ```bash
-# Crontab : Export tous les jours à 2h du matin
+# Crontab: Export every day at 2am
 0 2 * * * cd /var/www/myapp && php bin/console app:export:poliris >> /var/log/poliris-export.log 2>&1
 ```
 
-#### Option C : Avec un Event Symfony
+#### Option C: Symfony Event
 
-Déclenchez l'export automatiquement lors de certains événements :
+Trigger export automatically on certain events:
 
 ```php
 <?php
@@ -728,18 +728,18 @@ class PropertyUpdateSubscriber implements EventSubscriberInterface
 
     public function onPropertyUpdated(PropertyUpdatedEvent $event): void
     {
-        // Regénérer l'export après mise à jour d'un bien
+        // Regenerate export after property update
         $csvContent = $this->exportService->generateExport();
         
-        // Enregistrer ou envoyer le fichier
+        // Save or send the file
         // ...
     }
 }
 ```
 
-#### Option D : Via Messenger (asynchrone)
+#### Option D: Symfony Messenger (Asynchronous)
 
-Pour des exports lourds, utilisez Symfony Messenger :
+For heavy exports, use Symfony Messenger:
 
 ```php
 <?php
@@ -776,7 +776,7 @@ class GeneratePolirisExportHandler
     {
         $csvContent = $this->exportService->generateExport();
         
-        // Sauvegarder le fichier
+        // Save the file
         file_put_contents(
             '/var/exports/poliris-' . $message->requestedAt->format('YmdHis') . '.csv',
             $csvContent
@@ -785,7 +785,7 @@ class GeneratePolirisExportHandler
 }
 ```
 
-**Déclencher l'export** :
+**Trigger the export**:
 
 ```php
 $messageBus->dispatch(new GeneratePolirisExportMessage(new \DateTimeImmutable()));
@@ -793,100 +793,100 @@ $messageBus->dispatch(new GeneratePolirisExportMessage(new \DateTimeImmutable())
 
 ---
 
-### Cas #4 : Erreur courante et solution
+### Case #4: Common Error and Solution
 
-#### ❌ Erreur : "Invalid CSV format"
+#### ❌ Error: "Invalid CSV format"
 
-**Symptôme** :  
-Le portail refuse le CSV avec le message "Format invalide".
+**Symptom**:  
+Portal rejects CSV with "Invalid format" message.
 
-**Causes possibles** :
+**Possible causes**:
 
-1. **Encodage incorrect** : Le CSV doit être en UTF-8
-2. **Séparateur incorrect** : Poliris utilise des virgules (`,`)
-3. **Nombre de colonnes incorrect** : 333 colonnes attendues
-4. **Valeurs manquantes** : Certaines colonnes obligatoires sont vides
+1. **Incorrect encoding**: CSV must be UTF-8
+2. **Wrong separator**: Poliris uses commas (`,`)
+3. **Incorrect column count**: 333 columns expected
+4. **Missing values**: Some required columns are empty
 
-**Solution 1 : Vérifier l'encodage**
+**Solution 1: Check encoding**
 
 ```php
 $csvContent = $builder->build()->toCSV();
 
-// Forcer l'encodage UTF-8
+// Force UTF-8 encoding
 $csvContent = mb_convert_encoding($csvContent, 'UTF-8', 'auto');
 
-// Ajouter le BOM UTF-8 (parfois nécessaire)
+// Add UTF-8 BOM (sometimes required)
 $csvContent = "\xEF\xBB\xBF" . $csvContent;
 ```
 
-**Solution 2 : Vérifier les colonnes obligatoires**
+**Solution 2: Check required columns**
 
-Assurez-vous de remplir **au minimum** :
+Ensure you fill in **at minimum**:
 
 ```php
 $builder
     ->startLine()
-    // OBLIGATOIRES
+    // REQUIRED
     ->withIdentifiant(
-        agenceId: 'AGENCE001',           // ✅ Requis
-        agencePropertyRef: 'REF-001',    // ✅ Requis
-        annonceType: 'vente',            // ✅ Requis
-        annonceIdTechnique: 'TECH-001'   // ✅ Requis
+        agenceId: 'AGENCE001',           // ✅ Required
+        agencePropertyRef: 'REF-001',    // ✅ Required
+        annonceType: 'vente',            // ✅ Required
+        annonceIdTechnique: 'TECH-001'   // ✅ Required
     )
     ->withType(
-        type: 1,                         // ✅ Requis
+        type: 1,                         // ✅ Required
         sousType: null
     )
     ->withLocalisation(
-        cp: '75001',                     // ✅ Requis
-        ville: 'Paris',                  // ✅ Requis
-        pays: 'France',                  // ✅ Requis
-        adresse: null,                   // Optionnel
-        // ... autres paramètres optionnels
+        cp: '75001',                     // ✅ Required
+        ville: 'Paris',                  // ✅ Required
+        pays: 'France',                  // ✅ Required
+        adresse: null,                   // Optional
+        // ... other optional parameters
     )
     ->withSurface(
-        surface: 65,                     // ✅ Requis
+        surface: 65,                     // ✅ Required
         surfaceTerrain: null,
-        nbPieces: 3,                     // ✅ Requis
-        nbChambres: 2,                   // ✅ Requis (selon type)
-        // ... autres paramètres
+        nbPieces: 3,                     // ✅ Required
+        nbChambres: 2,                   // ✅ Required (depending on type)
+        // ... other parameters
     )
     ->withPrix(
-        prix: 450000,                    // ✅ Requis
-        // ... autres paramètres optionnels
+        prix: 450000,                    // ✅ Required
+        // ... other optional parameters
     )
     ->withDetail(
         activitesCommerciales: null,
-        label: 'Mon annonce',            // ✅ Requis
-        description: 'Description...',   // ✅ Requis
-        // ... autres paramètres
+        label: 'My listing',             // ✅ Required
+        description: 'Description...',   // ✅ Required
+        // ... other parameters
     );
 ```
 
-**Solution 3 : Activer les logs de debug**
+**Solution 3: Enable debug logging**
 
 ```php
 try {
     $export = $builder->build();
     $csvContent = $export->toCSV();
 } catch (\Throwable $e) {
-    // Logger l'erreur
-    error_log('Erreur Poliris : ' . $e->getMessage());
-    error_log('Trace : ' . $e->getTraceAsString());
+    // Log the error
+    error_log('Poliris error: ' . $e->getMessage());
+    error_log('Trace: ' . $e->getTraceAsString());
     
     throw $e;
 }
 ```
 
-#### ❌ Erreur : "Memory exhausted"
+#### ❌ Error: "Memory exhausted"
 
-**Symptôme** :  
+**Symptom**:  
 `PHP Fatal error: Allowed memory size exhausted`
 
-**Cause** :  
-Trop d'annonces en mémoire (plusieurs milliers).
+**Cause**:  
+Too many listings in memory (several thousand).
 
-**Solution : Traiter par lots**
+**Solution: Process in batches**
 
 ```php
 <?php
@@ -908,19 +908,19 @@ class PolirisExportService
             $this->addProperty($builder, $property);
             $count++;
 
-            // Générer un CSV toutes les 500 annonces
+            // Generate CSV every 500 listings
             if ($count % self::BATCH_SIZE === 0) {
                 yield $builder->build()->toCSV();
                 
-                // Réinitialiser le builder
+                // Reset builder
                 $builder = new AnnonceExportBuilder();
                 
-                // Libérer la mémoire
+                // Free memory
                 gc_collect_cycles();
             }
         }
 
-        // Dernières annonces
+        // Last listings
         if ($count % self::BATCH_SIZE !== 0) {
             yield $builder->build()->toCSV();
         }
@@ -936,146 +936,146 @@ class PolirisExportService
 }
 ```
 
-**Utilisation** :
+**Usage**:
 
 ```php
-// Dans un contrôleur ou une commande
+// In a controller or command
 $properties = $propertyRepository->findAllAsIterator();
 
 foreach ($exportService->generateExportInBatches($properties) as $batch) {
-    // Écrire chaque batch dans un fichier
+    // Write each batch to a file
     file_put_contents('/tmp/export-batch-' . time() . '.csv', $batch, FILE_APPEND);
 }
 ```
 
 ---
 
-## 📚 Référence des modèles
+## Model Reference
 
-Le bundle fournit **31 modèles** pour représenter tous les aspects d'un bien immobilier.
+The bundle provides **31 models** to represent all aspects of a real estate property.
 
-### Vue d'ensemble des modèles
+### Model Overview
 
-| Modèle | Description | Colonnes CSV |
+| Model | Description | CSV Columns |
 |--------|-------------|--------------|
-| **Identifiant** | ID agence, référence bien | 1-3, 175 |
-| **Type** | Type de bien (appt, maison, etc.) | 4, 181 |
-| **Photo** | URLs photos (30 max) + visite virtuelle | 5-10, 96-125 |
-| **Localisation** | Adresse, CP, ville, GPS | 11-19, 158-165 |
-| **Surface** | Surface, pièces, chambres | 20-29, 182-188 |
-| **Prix** | Prix, loyer, charges | 30-34, 126-137 |
-| **Detail** | Titre, description, disponibilité | 35-40, 194-196 |
+| **Identifiant** | Agency ID, property reference | 1-3, 175 |
+| **Type** | Property type (apt, house, etc.) | 4, 181 |
+| **Photo** | Photo URLs (30 max) + virtual tour | 5-10, 96-125 |
+| **Localisation** | Address, postal code, city, GPS | 11-19, 158-165 |
+| **Surface** | Surface, rooms, bedrooms | 20-29, 182-188 |
+| **Prix** | Price, rent, charges | 30-34, 126-137 |
+| **Detail** | Title, description, availability | 35-40, 194-196 |
 | **Diagnostic** | DPE, GES, diagnostics | 41-50, 198-205 |
-| **Contact** | Téléphone, email, négociateur | 51-57, 300-305 |
-| **Exterieur** | Ascenseur, piscine, vue | 58-64 |
-| **Interieur** | Meublé, année construction | 65-85 |
-| **ChauffageClim** | Type chauffage, climatisation | 86-87 |
-| **PartieJour** | Cuisine, séjour, équipements | 88-95 |
-| **Etage** | Étage, nombre d'étages | 138-140 |
-| **Securite** | Digicode, interphone, alarme | 141-144 |
+| **Contact** | Phone, email, agent | 51-57, 300-305 |
+| **Exterieur** | Elevator, pool, view | 58-64 |
+| **Interieur** | Furnished, construction year | 65-85 |
+| **ChauffageClim** | Heating type, air conditioning | 86-87 |
+| **PartieJour** | Kitchen, living room, equipment | 88-95 |
+| **Etage** | Floor, number of floors | 138-140 |
+| **Securite** | Digicode, intercom, alarm | 141-144 |
 | **Garage** | Garage, type | 145-146 |
-| **Parking** | Nombre véhicules, type parking | 147-149 |
-| **Bureau** | Infos bureaux professionnels | 150-167 |
-| **Boutique** | Infos commerce | 168-169 |
-| **Terrain** | Terrain constructible, agricole | 170-176 |
-| **Location** | Durée bail, nature bail | 177-180, 206-209 |
-| **Viager** | Bouquet, rente mensuelle | 210-214 |
-| **Mandat** | Mandat exclusif, numéro | 215-225 |
-| **HonoraireCharge** | Honoraires, charges | 226-235 |
-| **Diagnostic** | Diagnostics immobiliers | 236-250 |
-| **FondsCommerce** | CA, résultats (commerce) | 251-258 |
-| **ProduitInvestissement** | Valeur achat, rapport | 259-260 |
-| **LocationVacances** | Prix saison, disponibilités | 261-272 |
-| **Langue** | Multilangue (3 langues max) | 273-284 |
-| **Publication** | Portails de diffusion | 285-287 |
-| **ChampCustom** | Champs personnalisés (26 max) | 288-313 |
+| **Parking** | Number of vehicles, parking type | 147-149 |
+| **Bureau** | Office property information | 150-167 |
+| **Boutique** | Shop information | 168-169 |
+| **Terrain** | Buildable land, agricultural | 170-176 |
+| **Location** | Lease duration, lease type | 177-180, 206-209 |
+| **Viager** | Lump sum, monthly annuity | 210-214 |
+| **Mandat** | Exclusive mandate, number | 215-225 |
+| **HonoraireCharge** | Fees, charges | 226-235 |
+| **Diagnostic** | Property diagnostics | 236-250 |
+| **FondsCommerce** | Revenue, results (business) | 251-258 |
+| **ProduitInvestissement** | Purchase value, return | 259-260 |
+| **LocationVacances** | Season prices, availability | 261-272 |
+| **Langue** | Multilingual (3 languages max) | 273-284 |
+| **Publication** | Distribution portals | 285-287 |
+| **ChampCustom** | Custom fields (26 max) | 288-313 |
 
-### Modèles les plus utilisés
+### Most Used Models
 
-#### 1. Identifiant (colonnes 1-3, 175)
+#### 1. Identifiant (columns 1-3, 175)
 
 ```php
 ->withIdentifiant(
-    agenceId: 'AGENCE001',           // Col 1 : ID agence
-    agencePropertyRef: 'REF-001',    // Col 2 : Référence bien
-    annonceType: 'vente',            // Col 3 : vente/location
-    annonceIdTechnique: 'TECH-001'   // Col 175 : ID technique
+    agenceId: 'AGENCE001',           // Col 1: Agency ID
+    agencePropertyRef: 'REF-001',    // Col 2: Property reference
+    annonceType: 'vente',            // Col 3: vente/location
+    annonceIdTechnique: 'TECH-001'   // Col 175: Technical ID
 )
 ```
 
-**Types d'annonce** :
+**Listing types**:
 - `Annonce::ANNONCE_TYPE_VENTE` = `'vente'`
 - `Annonce::ANNONCE_TYPE_LOCATION` = `'location'`
 - `Annonce::ANNONCE_TYPE_MODELE_MAISON` = `'modèle de maison'`
 
-#### 2. Type (colonnes 4, 181)
+#### 2. Type (columns 4, 181)
 
 ```php
 ->withType(
-    type: 1,        // Col 4 : Type principal
-    sousType: null  // Col 181 : Sous-type
+    type: 1,        // Col 4: Main type
+    sousType: null  // Col 181: Subtype
 )
 ```
 
-**Codes types** :
-- `1` = Appartement
-- `2` = Maison
+**Type codes**:
+- `1` = Apartment
+- `2` = House
 - `3` = Parking/Box
-- `4` = Terrain
-- `5` = Boutique
-- `6` = Bureau
-- `7` = Bâtiment
-- `8` = Château
-- `9` = Immeuble
+- `4` = Land
+- `5` = Shop
+- `6` = Office
+- `7` = Building
+- `8` = Castle
+- `9` = Block
 - `10` = Loft
-- `11` = Local commercial
-- `13` = Programme neuf
+- `11` = Commercial premises
+- `13` = New development
 
-#### 3. Surface (colonnes 20-29, 182-188)
+#### 3. Surface (columns 20-29, 182-188)
 
 ```php
 ->withSurface(
-    surface: 65,              // Col 20 : Surface habitable (m²)
-    surfaceTerrain: 200,      // Col 21 : Surface terrain (m²)
-    nbPieces: 3,              // Col 22 : Nombre de pièces
-    nbChambres: 2,            // Col 23 : Nombre de chambres
-    nbSdb: 1,                 // Col 24 : Salles de bain
-    nbSalleEau: 1,            // Col 25 : Salles d'eau
-    nbWc: 1,                  // Col 26 : WC
-    nbBalcons: 1,             // Col 27 : Nombre de balcons
-    surfaceBalcon: 5,         // Col 28 : Surface balcon (m²)
-    nbParkings: 1,            // Col 29 : Parkings
-    // ... 18 autres paramètres
+    surface: 65,              // Col 20: Living area (m²)
+    surfaceTerrain: 200,      // Col 21: Land area (m²)
+    nbPieces: 3,              // Col 22: Number of rooms
+    nbChambres: 2,            // Col 23: Number of bedrooms
+    nbSdb: 1,                 // Col 24: Bathrooms
+    nbSalleEau: 1,            // Col 25: Shower rooms
+    nbWc: 1,                  // Col 26: WC
+    nbBalcons: 1,             // Col 27: Number of balconies
+    surfaceBalcon: 5,         // Col 28: Balcony surface (m²)
+    nbParkings: 1,            // Col 29: Parkings
+    // ... 18 other parameters
 )
 ```
 
-#### 4. Prix (colonnes 30-34, 126-137)
+#### 4. Prix (columns 30-34, 126-137)
 
 ```php
 ->withPrix(
-    prix: 450000,                    // Col 30 : Prix vente ou loyer
-    loyerMoisMur: null,              // Col 31 : Loyer mur
-    loyerCC: 500,                    // Col 32 : Loyer charges comprises
-    loyerHT: null,                   // Col 33 : Loyer HT (pro)
-    depotGarantie: 1000,             // Col 34 : Dépôt de garantie
-    prixMasque: false,               // Col 126 : Masquer le prix
-    prixHT: null,                    // Col 127 : Prix HT (pro)
-    copropriete: true,               // Col 128 : En copropriété
-    nbLots: 25,                      // Col 129 : Nombre de lots
-    syndicatCopro: null,             // Col 130 : Syndic
-    syndicatCoproDetails: 'Charges annuelles : 2400€',  // Col 131
-    // ... autres paramètres
+    prix: 450000,                    // Col 30: Sale price or rent
+    loyerMoisMur: null,              // Col 31: Wall rent
+    loyerCC: 500,                    // Col 32: Rent including charges
+    loyerHT: null,                   // Col 33: Rent excl. tax (professional)
+    depotGarantie: 1000,             // Col 34: Security deposit
+    prixMasque: false,               // Col 126: Hide price
+    prixHT: null,                    // Col 127: Price excl. tax (professional)
+    copropriete: true,               // Col 128: In co-ownership
+    nbLots: 25,                      // Col 129: Number of lots
+    syndicatCopro: null,             // Col 130: Syndic
+    syndicatCoproDetails: 'Annual charges: €2400',  // Col 131
+    // ... other parameters
 )
 ```
 
-#### 5. Detail (colonnes 35-40, 194-196)
+#### 5. Detail (columns 35-40, 194-196)
 
 ```php
 ->withDetail(
     activitesCommerciales: null,              // Col 35
-    label: 'Appartement T3 lumineux',         // Col 36 : Titre
-    description: 'Belle description...',      // Col 37 : Descriptif
-    datesDispo: new \DateTimeImmutable(),     // Col 38 : Date dispo
+    label: 'Bright 3-room apartment',         // Col 36: Title
+    description: 'Beautiful description...',  // Col 37: Description
+    datesDispo: new \DateTimeImmutable(),     // Col 38: Availability date
     amenagementHandicapes: false,             // Col 39
     animauxAcceptes: true,                    // Col 40
     duplex: false,                            // Col 194
@@ -1087,38 +1087,38 @@ Le bundle fournit **31 modèles** pour représenter tous les aspects d'un bien i
 
 ---
 
-## 🔧 Dépannage
+## Troubleshooting
 
 ### FAQ
 
-**Q : Puis-je valider les données avant l'export ?**  
-R : Non, le bundle ne propose pas de validation intégrée pour des raisons de performance. Validez vos données en amont avec le Validator de Symfony.
+**Q: Can I validate data before export?**  
+A: No, the bundle does not offer built-in validation for performance reasons. Validate your data upstream with Symfony's Validator.
 
-**Q : Comment gérer les champs multilangues ?**  
-R : Utilisez le modèle `Langue` avec jusqu'à 3 langues :
+**Q: How to handle multilingual fields?**  
+A: Use the `Langue` model with up to 3 languages:
 
 ```php
 ->withLangue(
     code1: 'FR',
     code2: 'EN',
     code3: 'DE',
-    proximite1: 'Proche métro',
+    proximite1: 'Near metro',
     proximite2: 'Near metro',
-    proximite3: 'Nahe U-Bahn',
-    label1: 'Appartement 3 pièces',
+    proximite3: 'Near U-Bahn',
+    label1: '3-room apartment',
     label2: '3-room apartment',
     label3: '3-Zimmer-Wohnung',
-    descriptif1: 'Belle description en français',
+    descriptif1: 'Beautiful description in French',
     descriptif2: 'Beautiful description in English',
-    descriptif3: 'Schöne Beschreibung auf Deutsch'
+    descriptif3: 'Beautiful description in German'
 )
 ```
 
-**Q : Comment exporter uniquement certaines annonces ?**  
-R : Filtrez vos données en amont dans votre repository :
+**Q: How to export only certain listings?**  
+A: Filter your data upstream in your repository:
 
 ```php
-// Dans votre service
+// In your service
 public function generateExportForSeLoger(): string
 {
     $properties = $this->propertyRepository->findBy([
@@ -1136,11 +1136,11 @@ public function generateExportForSeLoger(): string
 }
 ```
 
-**Q : Le CSV est-il valide pour tous les portails ?**  
-R : Le format Poliris V4.1.17 est supporté par la majorité des portails français (SeLoger, LeBonCoin, PAP, etc.). Vérifiez la documentation de chaque portail pour les spécificités.
+**Q: Is the CSV valid for all portals?**  
+A: Poliris V4.1.17 format is supported by most French portals (SeLoger, LeBonCoin, PAP, etc.). Check each portal's documentation for specifics.
 
-**Q : Comment gérer les erreurs de génération ?**  
-R : Utilisez un try-catch et loggez les erreurs :
+**Q: How to handle generation errors?**  
+A: Use try-catch and log errors:
 
 ```php
 use Psr\Log\LoggerInterface;
@@ -1154,8 +1154,8 @@ public function generateExport(LoggerInterface $logger): ?string
             try {
                 $this->addProperty($builder, $property);
             } catch (\Throwable $e) {
-                // Logger mais continuer
-                $logger->error('Erreur annonce ' . $property->getId(), [
+                // Log but continue
+                $logger->error('Listing error ' . $property->getId(), [
                     'exception' => $e->getMessage()
                 ]);
             }
@@ -1164,7 +1164,7 @@ public function generateExport(LoggerInterface $logger): ?string
         return $builder->build()->toCSV();
         
     } catch (\Throwable $e) {
-        $logger->critical('Erreur génération CSV Poliris', [
+        $logger->critical('Poliris CSV generation error', [
             'exception' => $e->getMessage(),
             'trace' => $e->getTraceAsString()
         ]);
@@ -1176,33 +1176,33 @@ public function generateExport(LoggerInterface $logger): ?string
 
 ---
 
-### Checklist avant mise en production
+### Pre-production Checklist
 
-- [ ] Les champs obligatoires sont remplis (Identifiant, Type, Localisation, Surface, Prix, Detail)
-- [ ] Les photos sont accessibles via HTTPS
-- [ ] L'encodage du CSV est UTF-8
-- [ ] Les dates sont au format `DateTimeImmutable` ou `DateTime`
-- [ ] Les booléens sont correctement convertis (`true` → `'OUI'`, `false` → `'NON'`)
-- [ ] Le fichier CSV est testé sur un portail en environnement de test
-- [ ] Les logs sont activés pour tracer les erreurs
-- [ ] Un système de monitoring est en place (export quotidien réussi/échoué)
-- [ ] La performance est acceptable (< 30s pour 1000 annonces)
-
----
-
-### Ressources supplémentaires
-
-- **Documentation officielle Poliris** : [https://www.poliris.com/documentation](https://www.poliris.com/documentation)
-- **Repository GitHub** : [https://github.com/SpiriitLabs/poliris-bundle](https://github.com/SpiriitLabs/poliris-bundle)
-- **Packagist** : [https://packagist.org/packages/spiriitlabs/poliris-bundle](https://packagist.org/packages/spiriitlabs/poliris-bundle)
+- [ ] Required fields are filled (Identifiant, Type, Localisation, Surface, Prix, Detail)
+- [ ] Photos are accessible via HTTPS
+- [ ] CSV encoding is UTF-8
+- [ ] Dates use `DateTimeImmutable` or `DateTime`
+- [ ] Booleans are correctly converted (`true` → `'OUI'`, `false` → `'NON'`)
+- [ ] CSV file is tested on a portal in test environment
+- [ ] Logging is enabled to trace errors
+- [ ] Monitoring system is in place (daily export success/failure)
+- [ ] Performance is acceptable (< 30s for 1000 listings)
 
 ---
 
-## 📝 Schéma d'architecture
+### Additional Resources
+
+- **Official Poliris documentation**: [https://www.poliris.com/documentation](https://www.poliris.com/documentation)
+- **GitHub repository**: [https://github.com/SpiriitLabs/poliris-bundle](https://github.com/SpiriitLabs/poliris-bundle)
+- **Packagist**: [https://packagist.org/packages/spiriitlabs/poliris-bundle](https://packagist.org/packages/spiriitlabs/poliris-bundle)
+
+---
+
+## Architecture Diagram
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                     Votre Application                        │
+│                     Your Application                         │
 │                                                               │
 │  ┌────────────────┐      ┌─────────────────┐                │
 │  │   Controller   │─────▶│  ExportService  │                │
@@ -1218,7 +1218,7 @@ public function generateExport(LoggerInterface $logger): ?string
 │              │   AnnonceBuilder (Bundle)   │                 │
 │              └──────────────┬──────────────┘                 │
 │                             │                                 │
-│                    Utilise 31 modèles                        │
+│                    Uses 31 models                            │
 │                             │                                 │
 │              ┌──────────────┼──────────────┐                 │
 │              ▼              ▼              ▼                  │
@@ -1230,8 +1230,8 @@ public function generateExport(LoggerInterface $logger): ?string
                             │
                             ▼
                    ┌────────────────┐
-                   │  Fichier CSV   │
-                   │  (333 colonnes) │
+                   │  CSV File      │
+                   │  (333 columns)  │
                    └────────┬───────┘
                             │
            ┌────────────────┼────────────────┐
@@ -1241,21 +1241,21 @@ public function generateExport(LoggerInterface $logger): ?string
 
 ---
 
-## 📊 Tableau récapitulatif des cas d'usage
+## Use Case Summary Table
 
-| Cas d'usage | Difficulté | Temps estimé | Modèles requis |
+| Use Case | Difficulty | Estimated Time | Required Models |
 |-------------|------------|--------------|----------------|
-| Export basique | ⭐ Facile | 15 min | 5-7 modèles |
-| Export avec photos | ⭐⭐ Moyen | 30 min | 8-10 modèles |
-| Export SeLoger complet | ⭐⭐⭐ Avancé | 1-2h | 15-20 modèles |
-| Automatisation cron | ⭐⭐ Moyen | 45 min | Dépend du cas |
-| Export asynchrone | ⭐⭐⭐ Avancé | 2-3h | Dépend du cas |
-| Multi-portails | ⭐⭐⭐ Avancé | 3-4h | 20-25 modèles |
+| Basic export | ⭐ Easy | 15 min | 5-7 models |
+| Export with photos | ⭐⭐ Medium | 30 min | 8-10 models |
+| Complete SeLoger export | ⭐⭐⭐ Advanced | 1-2h | 15-20 models |
+| Cron automation | ⭐⭐ Medium | 45 min | Depends on case |
+| Asynchronous export | ⭐⭐⭐ Advanced | 2-3h | Depends on case |
+| Multi-portal | ⭐⭐⭐ Advanced | 3-4h | 20-25 models |
 
 ---
 
-**Voilà ! Vous êtes maintenant prêt à utiliser PolirisBundle comme un pro ! 🚀**
+**You're now ready to use PolirisBundle like a pro! 🚀**
 
-Si vous avez des questions, n'hésitez pas à ouvrir une issue sur GitHub ou à consulter les exemples dans le dossier `tests/`.
+If you have questions, feel free to open an issue on GitHub or check the examples in the `tests/` folder.
 
-Bon export ! 🏠✨
+Happy exporting! 🏠✨
