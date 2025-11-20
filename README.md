@@ -20,6 +20,18 @@ to your ``composer.json`` file:
 $ php composer.phar require "spiriitlabs/poliris-bundle"
 ```
 
+Documentation
+-------------
+
+📚 **[Complete Documentation](docs/DOCUMENTATION.md)**
+
+The documentation provides:
+- 🚀 Detailed getting started tutorial
+- 🎯 Illustrated use cases (SeLoger, photos, automation)
+- 📊 Model reference tables
+- 🔧 Common error solutions
+- 💡 Complete and tested code examples
+
 How to use
 ----------
 
