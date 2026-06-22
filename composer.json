@@ -2,7 +2,24 @@
   "name": "spiriitlabs/poliris-bundle",
   "description": "Poliris bundle for CSV",
   "type": "library",
-  "keywords": ["symfony", "bundle", "immobilier", "seloger", "leboncoin", "export", "poliris"],
+  "keywords": [
+    "symfony",
+    "symfony-bundle",
+    "real-estate",
+    "property",
+    "real-estate-export",
+    "real-estate-feed",
+    "poliris",
+    "poliris-csv",
+    "seloger",
+    "leboncoin",
+    "immobilier",
+    "annonces",
+    "property-portal",
+    "marketplace",
+    "feed-generator",
+    "csv-export"
+  ],
   "autoload": {
     "psr-4": { "Spiriit\\PolirisBundle\\": "" }
   },
